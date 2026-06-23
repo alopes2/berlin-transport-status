@@ -1,5 +1,5 @@
 {
-  "name": "db-bvg-status",
+  "name": "berlin-transport-status",
   "private": true,
   "workspaces": [
     "frontend"
@@ -11,4 +11,3 @@
     "lint": "npm run lint --workspace frontend"
   }
 }
-

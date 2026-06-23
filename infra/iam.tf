@@ -1,5 +1,5 @@
 resource "aws_iam_role" "lambda" {
-  name = "${var.project_name}-lambda"
+  name = "${var.project_name}-lambda-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
@@ -44,7 +44,7 @@ resource "aws_iam_role_policy" "lambda" {
 }
 
 resource "aws_iam_role" "scheduler" {
-  name = "${var.project_name}-scheduler"
+  name = "${var.project_name}-scheduler-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{

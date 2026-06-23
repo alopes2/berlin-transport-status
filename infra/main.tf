@@ -7,6 +7,14 @@ terraform {
       version = "~> 6.0"
     }
   }
+
+  backend "s3" {
+    bucket       = "andre-lopes-iac"
+    key          = "berlin-transport-status.tfstate"
+    encrypt      = true
+    use_lockfile = true
+    region       = "eu-central-1"
+  }
 }
 
 provider "aws" {
