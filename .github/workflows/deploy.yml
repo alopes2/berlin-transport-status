@@ -56,7 +56,7 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name "${{ steps.outputs.outputs.collector_function }}" \
-            --zip-file fileb://artifacts/transport-status.zip
+            --zip-file fileb://${{ github.workspace }}/artifacts/transport-status.zip
           aws lambda wait function-updated \
             --function-name "${{ steps.outputs.outputs.collector_function }}"
 
@@ -64,7 +64,7 @@ jobs:
         run: |
           aws lambda update-function-code \
             --function-name "${{ steps.outputs.outputs.api_function }}" \
-            --zip-file fileb://artifacts/transport-status.zip
+            --zip-file fileb://${{ github.workspace }}/artifacts/transport-status.zip
           aws lambda wait function-updated \
             --function-name "${{ steps.outputs.outputs.api_function }}"
 
