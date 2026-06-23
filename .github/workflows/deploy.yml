@@ -73,6 +73,6 @@ jobs:
         env:
           VITE_API_URL: ${{ steps.outputs.outputs.api_url }}
 
-      - run: aws s3 sync frontend/dist "s3://${{ steps.outputs.outputs.bucket }}" --delete
+      - run: aws s3 sync ${{ github.workspace }}/frontend/dist "s3://${{ steps.outputs.outputs.bucket }}" --delete
 
       - run: aws cloudfront create-invalidation --distribution-id "${{ steps.outputs.outputs.distribution }}" --paths "/*"
