@@ -2,12 +2,12 @@ using TransportStatus.Sources;
 
 namespace TransportStatus.Tests;
 
-public sealed class DbRegioJsonParserTests
+public class DbRegioJsonParserTests
 {
-    [Fact]
-    public void Converts_each_regional_message_to_an_alert()
-    {
-        const string json = """
+  [Fact]
+  public void Converts_each_regional_message_to_an_alert()
+  {
+    const string json = """
         {
           "messages": [
             {
@@ -19,11 +19,11 @@ public sealed class DbRegioJsonParserTests
         }
         """;
 
-        var alerts = DbRegioJsonParser.Parse(json);
+    var alerts = DbRegioJsonParser.Parse(json);
 
-        var alert = Assert.Single(alerts);
-        Assert.Equal("regional-1", alert.Id);
-        Assert.Equal("RE 2", alert.AffectedLine);
-    }
+    var alert = Assert.Single(alerts);
+    Assert.Equal("regional-1", alert.Id);
+    Assert.Equal("RE 2", alert.AffectedLine);
+  }
 }
 

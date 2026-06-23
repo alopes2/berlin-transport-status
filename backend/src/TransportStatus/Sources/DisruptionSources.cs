@@ -10,7 +10,7 @@ public interface IDisruptionSource
         CancellationToken cancellationToken);
 }
 
-public sealed class SbahnDisruptionSource(HttpClient httpClient) : IDisruptionSource
+public class SbahnDisruptionSource(HttpClient httpClient) : IDisruptionSource
 {
     private const string Query = """
         query Consequences($language: Language!) {
@@ -46,7 +46,7 @@ public sealed class SbahnDisruptionSource(HttpClient httpClient) : IDisruptionSo
     }
 }
 
-public sealed class BvgDisruptionSource(
+public class BvgDisruptionSource(
     HttpClient httpClient,
     Uri uri) : IDisruptionSource
 {
@@ -65,7 +65,7 @@ public sealed class BvgDisruptionSource(
     }
 }
 
-public sealed class DbRegioDisruptionSource(HttpClient httpClient)
+public class DbRegioDisruptionSource(HttpClient httpClient)
     : IDisruptionSource
 {
     private static readonly TimeZoneInfo BerlinTimeZone =

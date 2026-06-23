@@ -18,13 +18,13 @@ public enum TodayStatus
     Unknown
 }
 
-public sealed record TransportAlert(
+public record TransportAlert(
     string Id,
     string Source,
     string Title,
     string? AffectedLine);
 
-public sealed record Observation(
+public record Observation(
     string Company,
     DateOnly BerlinDate,
     DateTimeOffset CheckedAt,
@@ -52,7 +52,7 @@ public sealed record Observation(
         new(company, date, DateTimeOffset.UtcNow, DataStatus.Unavailable, []);
 }
 
-public sealed record CompanyState(
+public record CompanyState(
     string Company,
     DateOnly BerlinDate,
     DateOnly TrackingSince,
@@ -84,7 +84,7 @@ public sealed record CompanyState(
             DateTimeOffset.UtcNow);
 }
 
-public sealed record CompanyStatusResponse(
+public record CompanyStatusResponse(
     string Company,
     string TodayStatus,
     int CurrentStreakDays,
@@ -94,7 +94,7 @@ public sealed record CompanyStatusResponse(
     string DataStatus,
     DateTimeOffset LastCheckedAt);
 
-public sealed record StatusResponse(
+public record StatusResponse(
     DateTimeOffset GeneratedAt,
     IReadOnlyList<CompanyStatusResponse> Companies);
 

@@ -2,7 +2,7 @@ using TransportStatus.Domain;
 
 namespace TransportStatus.Tests;
 
-public sealed class StreakCalculatorTests
+public class StreakCalculatorTests
 {
     private static readonly DateOnly TrackingDate = new(2026, 6, 22);
 

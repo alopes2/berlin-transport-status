@@ -11,7 +11,7 @@ public interface IStatusRepository
     Task<IReadOnlyList<CompanyState>> GetAllAsync(CancellationToken cancellationToken);
 }
 
-public sealed class DynamoStatusRepository(
+public class DynamoStatusRepository(
     IAmazonDynamoDB dynamoDb,
     string tableName) : IStatusRepository
 {
@@ -26,7 +26,7 @@ public sealed class DynamoStatusRepository(
                 Key = Key(company)
             },
             cancellationToken);
-        return response.Item.Count == 0 ? null : FromItem(response.Item);
+        return response.Item is not { Count: > 0 } ? null : FromItem(response.Item);
     }
 
     public async Task SaveAsync(

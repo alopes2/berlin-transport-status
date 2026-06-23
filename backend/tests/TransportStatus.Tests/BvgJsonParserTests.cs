@@ -2,12 +2,12 @@ using TransportStatus.Sources;
 
 namespace TransportStatus.Tests;
 
-public sealed class BvgJsonParserTests
+public class BvgJsonParserTests
 {
-    [Fact]
-    public void Includes_traffic_messages_and_excludes_elevator_messages()
-    {
-        const string json = """
+  [Fact]
+  public void Includes_traffic_messages_and_excludes_elevator_messages()
+  {
+    const string json = """
         {
           "elements": [
             {
@@ -26,12 +26,12 @@ public sealed class BvgJsonParserTests
         }
         """;
 
-        var alerts = BvgJsonParser.Parse(json);
+    var alerts = BvgJsonParser.Parse(json);
 
-        var alert = Assert.Single(alerts);
-        Assert.Equal("traffic-1", alert.Id);
-        Assert.Equal("U2", alert.AffectedLine);
-        Assert.Equal("Ersatzverkehr", alert.Title);
-    }
+    var alert = Assert.Single(alerts);
+    Assert.Equal("traffic-1", alert.Id);
+    Assert.Equal("U2", alert.AffectedLine);
+    Assert.Equal("Ersatzverkehr", alert.Title);
+  }
 }
 

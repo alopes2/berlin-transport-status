@@ -2,7 +2,7 @@ using TransportStatus.Sources;
 
 namespace TransportStatus.Tests;
 
-public sealed class HtmlIssueParserTests
+public class HtmlIssueParserTests
 {
     [Fact]
     public void Extracts_transport_disruptions_and_ignores_accessibility_outages()

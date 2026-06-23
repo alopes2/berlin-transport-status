@@ -8,7 +8,7 @@ using TransportStatus.Storage;
 
 namespace TransportStatus.Functions;
 
-public sealed class StatusApiFunction
+public class StatusApiFunction
 {
     private static readonly JsonSerializerOptions JsonOptions =
         new(JsonSerializerDefaults.Web);
@@ -38,12 +38,12 @@ public sealed class StatusApiFunction
             var states = await repository.GetAllAsync(CancellationToken.None);
             var response = new StatusResponse(
                 DateTimeOffset.UtcNow,
-                states.Select(Map).ToArray());
+                [.. states.Select(Map)]);
             return Json(HttpStatusCode.OK, response);
         }
         catch (Exception exception)
         {
-            context.Logger.LogError($"Status read failed: {exception.Message}");
+            context.Logger.LogError(exception, "Status read failed");
             return Json(
                 HttpStatusCode.ServiceUnavailable,
                 new { message = "Status data is temporarily unavailable." });

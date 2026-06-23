@@ -2,12 +2,12 @@ using TransportStatus.Sources;
 
 namespace TransportStatus.Tests;
 
-public sealed class SbahnJsonParserTests
+public class SbahnJsonParserTests
 {
-    [Fact]
-    public void Includes_only_consequences_affecting_today()
-    {
-        const string json = """
+  [Fact]
+  public void Includes_only_consequences_affecting_today()
+  {
+    const string json = """
         {
           "data": {
             "consequences": [
@@ -28,11 +28,11 @@ public sealed class SbahnJsonParserTests
         }
         """;
 
-        var alerts = SbahnJsonParser.Parse(json);
+    var alerts = SbahnJsonParser.Parse(json);
 
-        var alert = Assert.Single(alerts);
-        Assert.Equal("today-1", alert.Id);
-        Assert.Equal("S7", alert.AffectedLine);
-    }
+    var alert = Assert.Single(alerts);
+    Assert.Equal("today-1", alert.Id);
+    Assert.Equal("S7", alert.AffectedLine);
+  }
 }
 

@@ -6,7 +6,7 @@ using TransportStatus.Storage;
 
 namespace TransportStatus.Functions;
 
-public sealed class CollectorFunction
+public class CollectorFunction
 {
     private static readonly TimeZoneInfo BerlinTimeZone =
         TimeZoneInfo.FindSystemTimeZoneById("Europe/Berlin");
@@ -59,10 +59,12 @@ public sealed class CollectorFunction
                             context.RemainingTime > TimeSpan.FromSeconds(5)
                                 ? CancellationToken.None
                                 : new CancellationToken(true))));
+
                 var alerts = alertLists
                     .SelectMany(alerts => alerts)
                     .DistinctBy(alert => alert.Id)
                     .ToArray();
+
                 observation = new Observation(
                     companyGroup.Key,
                     berlinDate,
@@ -82,11 +84,21 @@ public sealed class CollectorFunction
                     []);
             }
 
-            var current = await repository.GetAsync(
-                companyGroup.Key,
-                CancellationToken.None);
-            var next = StreakCalculator.Apply(current, observation, trackingDate);
-            await repository.SaveAsync(next, CancellationToken.None);
+            try
+            {
+                var current = await repository.GetAsync(
+                    companyGroup.Key,
+                    CancellationToken.None);
+                var next = StreakCalculator.Apply(current, observation, trackingDate);
+                await repository.SaveAsync(next, CancellationToken.None);
+            }
+            catch (Exception exception)
+            {
+                context.Logger.LogError(
+                    exception,
+                    "Streak calculation failed for {companyGroupKey}",
+                    companyGroup.Key);
+            }
         }
     }
 
