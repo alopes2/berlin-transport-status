@@ -1,0 +1,259 @@
+:root {
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  color: #171717;
+  background: #f2f0e9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(rgb(23 23 23 / 0.025) 1px, transparent 1px),
+    #f2f0e9;
+  background-size: 100% 6px;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+a:focus-visible {
+  outline: 3px solid #171717;
+  outline-offset: 4px;
+}
+
+main {
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 46px 0 32px;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 58px;
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.site-header__line {
+  width: 100%;
+  height: 2px;
+  background: #171717;
+}
+
+.status-list {
+  display: grid;
+  gap: 32px;
+}
+
+.status-section {
+  position: relative;
+  display: grid;
+  grid-template-columns: 14px 1fr;
+  min-height: 330px;
+  border-top: 2px solid #171717;
+  border-bottom: 2px solid #171717;
+  transition:
+    transform 180ms ease,
+    background-color 180ms ease;
+}
+
+.status-section:hover {
+  transform: translateY(-3px);
+  background: rgb(255 255 255 / 0.18);
+}
+
+.status-section__rail {
+  height: 100%;
+  background: var(--brand);
+}
+
+.status-section--bvg {
+  --brand: #f0d722;
+}
+
+.status-section--db {
+  --brand: #ec0016;
+}
+
+.status-section__body {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  padding: 38px clamp(24px, 6vw, 88px);
+  text-align: center;
+}
+
+.status-section__live {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.status-section h2 {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+}
+
+.status-section--bvg h2::first-letter,
+.status-section--db h2::first-letter {
+  text-decoration-color: var(--brand);
+}
+
+.status-dot {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  border: 2px solid #171717;
+  border-radius: 50%;
+  background: #8c8c8c;
+}
+
+.status-dot--perfect {
+  background: #25a55f;
+}
+
+.status-dot--issues {
+  background: #ec0016;
+}
+
+.status-section__lead {
+  margin: 0;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 650;
+}
+
+.status-section__days {
+  margin: 8px 0 10px;
+  font-size: clamp(4.6rem, 12vw, 8.5rem);
+  font-weight: 950;
+  letter-spacing: -0.085em;
+  line-height: 0.82;
+}
+
+.status-section__record,
+.status-section__issues,
+.status-section__unknown {
+  margin: 24px 0 0;
+  font-size: 0.92rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
+}
+
+.status-section__issues {
+  color: #b40011;
+  margin-top: 16px;
+}
+
+.status-section__unknown {
+  max-width: 470px;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.message {
+  display: grid;
+  place-items: center;
+  min-height: 64vh;
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 900;
+  letter-spacing: -0.065em;
+}
+
+.message--error {
+  align-content: center;
+  gap: 12px;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  text-align: center;
+}
+
+.message--error span {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 26px 0 0 14px;
+  font-size: 0.82rem;
+  font-weight: 650;
+  color: #4a4a46;
+}
+
+footer p {
+  margin: 0;
+}
+
+@media (max-width: 680px) {
+  main {
+    width: min(100% - 28px, 1120px);
+    padding-top: 28px;
+  }
+
+  .site-header {
+    margin-bottom: 34px;
+  }
+
+  .status-list {
+    gap: 22px;
+  }
+
+  .status-section {
+    grid-template-columns: 9px 1fr;
+    min-height: 310px;
+  }
+
+  .status-section__body {
+    padding: 34px 18px;
+  }
+
+  .status-section__live {
+    gap: 8px;
+  }
+
+  footer {
+    flex-direction: column;
+    padding-left: 9px;
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-section {
+    transition: none;
+  }
+}

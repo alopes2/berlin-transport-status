@@ -1,0 +1,6 @@
+aws_region     = "eu-central-1"
+tracking_since = "2026-06-22"
+
+# Requests above these best-effort API Gateway limits receive HTTP 429.
+api_throttling_rate_limit  = 5
+api_throttling_burst_limit = 10
