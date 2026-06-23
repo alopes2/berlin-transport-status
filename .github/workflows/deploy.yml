@@ -40,15 +40,17 @@ jobs:
       - run: chmod +x ../scripts/package-lambda.sh && ../scripts/package-lambda.sh
 
       - run: terraform init
+        working-directory: infra
 
       - name: Read Terraform outputs
+        working-directory: infra
         id: outputs
         run: |
-          echo "api_url=$(terraform -chdir=../infra output -raw api_url)" >> "$GITHUB_OUTPUT"
-          echo "collector_function=$(terraform -chdir=../infra output -raw collector_function_name)" >> "$GITHUB_OUTPUT"
-          echo "api_function=$(terraform -chdir=../infra output -raw api_function_name)" >> "$GITHUB_OUTPUT"
-          echo "bucket=$(terraform -chdir=../infra output -raw frontend_bucket)" >> "$GITHUB_OUTPUT"
-          echo "distribution=$(terraform -chdir=../infra output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+          echo "api_url=$(terraform output -raw api_url)" >> "$GITHUB_OUTPUT"
+          echo "collector_function=$(terraform output -raw collector_function_name)" >> "$GITHUB_OUTPUT"
+          echo "api_function=$(terraform output -raw api_function_name)" >> "$GITHUB_OUTPUT"
+          echo "bucket=$(terraform output -raw frontend_bucket)" >> "$GITHUB_OUTPUT"
+          echo "distribution=$(terraform output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
 
       - name: Deploy collector Lambda code
         run: |
