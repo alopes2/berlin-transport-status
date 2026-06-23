@@ -2,15 +2,14 @@ name: Deploy
 
 on:
   workflow_dispatch:
-    inputs:
-      tracking_since:
-        description: First Berlin date tracked (YYYY-MM-DD)
-        required: true
-        default: '2026-06-22'
 
 permissions:
   contents: read
   id-token: write
+
+defaults:
+  run:
+    working-directory: backend
 
 jobs:
   deploy:
@@ -18,31 +17,37 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+
       - uses: hashicorp/setup-terraform@v3
+
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
           aws-region: eu-central-1
+
       - run: npm ci
-      - run: dotnet test backend/TransportStatus.slnx --configuration Release
-      - run: chmod +x scripts/package-lambda.sh && scripts/package-lambda.sh
-      - run: terraform -chdir=infra init
-      - run: terraform -chdir=infra apply -auto-approve -var="tracking_since=${{ inputs.tracking_since }}"
+
+      - run: dotnet test TransportStatus.slnx --configuration Release
+
+      - run: chmod +x ../scripts/package-lambda.sh && ../scripts/package-lambda.sh
+
       - name: Read Terraform outputs
         id: outputs
         run: |
-          echo "api_url=$(terraform -chdir=infra output -raw api_url)" >> "$GITHUB_OUTPUT"
-          echo "collector_function=$(terraform -chdir=infra output -raw collector_function_name)" >> "$GITHUB_OUTPUT"
-          echo "api_function=$(terraform -chdir=infra output -raw api_function_name)" >> "$GITHUB_OUTPUT"
-          echo "bucket=$(terraform -chdir=infra output -raw frontend_bucket)" >> "$GITHUB_OUTPUT"
-          echo "distribution=$(terraform -chdir=infra output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+          echo "api_url=$(terraform -chdir=../infra output -raw api_url)" >> "$GITHUB_OUTPUT"
+          echo "collector_function=$(terraform -chdir=../infra output -raw collector_function_name)" >> "$GITHUB_OUTPUT"
+          echo "api_function=$(terraform -chdir=../infra output -raw api_function_name)" >> "$GITHUB_OUTPUT"
+          echo "bucket=$(terraform -chdir=../infra output -raw frontend_bucket)" >> "$GITHUB_OUTPUT"
+          echo "distribution=$(terraform -chdir=../infra output -raw cloudfront_distribution_id)" >> "$GITHUB_OUTPUT"
+
       - name: Deploy collector Lambda code
         run: |
           aws lambda update-function-code \
@@ -50,6 +55,7 @@ jobs:
             --zip-file fileb://artifacts/transport-status.zip
           aws lambda wait function-updated \
             --function-name "${{ steps.outputs.outputs.collector_function }}"
+
       - name: Deploy API Lambda code
         run: |
           aws lambda update-function-code \
@@ -57,9 +63,12 @@ jobs:
             --zip-file fileb://artifacts/transport-status.zip
           aws lambda wait function-updated \
             --function-name "${{ steps.outputs.outputs.api_function }}"
+
       - name: Build frontend with deployed API
         run: npm run build
         env:
           VITE_API_URL: ${{ steps.outputs.outputs.api_url }}
+
       - run: aws s3 sync frontend/dist "s3://${{ steps.outputs.outputs.bucket }}" --delete
+
       - run: aws cloudfront create-invalidation --distribution-id "${{ steps.outputs.outputs.distribution }}" --paths "/*"

@@ -13,23 +13,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
+
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
+
       - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: 1.15.5
+
       - run: npm ci
+
       - run: npm test
+
       - run: npm run lint
+
       - run: npm run build
+
       - run: dotnet test backend/TransportStatus.slnx --configuration Release
+
       - run: scripts/test-deployment-boundary.sh
+
       - run: scripts/test-api-throttling.sh
+
       - run: terraform fmt -check -recursive infra
+
       - run: terraform -chdir=infra init -backend=false
+
       - run: terraform -chdir=infra validate
+
+      - run: terraform -chdir=infra plan -out=tfplan -var="tracking_since=2026-06-23"
