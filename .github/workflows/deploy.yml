@@ -39,6 +39,8 @@ jobs:
 
       - run: chmod +x ../scripts/package-lambda.sh && ../scripts/package-lambda.sh
 
+      - run: terraform init
+
       - name: Read Terraform outputs
         id: outputs
         run: |
