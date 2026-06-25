@@ -1,6 +1,11 @@
 :root {
   font-family:
-    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
     sans-serif;
   color: #171717;
   background: #f2f0e9;
@@ -17,8 +22,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    linear-gradient(rgb(23 23 23 / 0.025) 1px, transparent 1px),
-    #f2f0e9;
+    linear-gradient(rgb(23 23 23 / 0.025) 1px, transparent 1px), #f2f0e9;
   background-size: 100% 6px;
 }
 
@@ -42,21 +46,24 @@ a:focus-visible {
 }
 
 main {
-  width: min(1120px, calc(100% - 48px));
-  margin: 0 auto;
-  padding: 46px 0 32px;
+  margin-right: 10%;
+  margin-left: 10%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .site-header {
   display: flex;
   align-items: center;
   gap: 28px;
-  margin-bottom: 58px;
+  margin-bottom: 2rem;
+  padding-top: 20px;
 }
 
 .site-header h1 {
   margin: 0;
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-size: 1.1rem;
   font-weight: 850;
   letter-spacing: -0.04em;
   white-space: nowrap;
@@ -71,15 +78,17 @@ main {
 .status-list {
   display: grid;
   gap: 32px;
+  flex-grow: 1;
 }
 
 .status-section {
   position: relative;
   display: grid;
   grid-template-columns: 14px 1fr;
-  min-height: 330px;
   border-top: 2px solid #171717;
   border-bottom: 2px solid #171717;
+  height: fit-content;
+  align-self: center;
   transition:
     transform 180ms ease,
     background-color 180ms ease;
@@ -107,7 +116,7 @@ main {
   display: grid;
   align-content: center;
   justify-items: center;
-  padding: 38px clamp(24px, 6vw, 88px);
+  padding: 1rem 24px;
   text-align: center;
 }
 
@@ -121,7 +130,7 @@ main {
 
 .status-section h2 {
   margin: 0;
-  font-size: clamp(1.45rem, 3vw, 2.6rem);
+  font-size: 1.45rem;
   font-weight: 900;
   letter-spacing: -0.055em;
 }
@@ -150,23 +159,22 @@ main {
 
 .status-section__lead {
   margin: 0;
-  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-size: clamp(1rem, 10vw, 1.2rem);
   font-weight: 650;
 }
 
 .status-section__days {
   margin: 8px 0 10px;
-  font-size: clamp(4.6rem, 12vw, 8.5rem);
+  font-size: clamp(3rem, 10vw, 3.4rem);
   font-weight: 950;
   letter-spacing: -0.085em;
-  line-height: 0.82;
 }
 
 .status-section__record,
 .status-section__issues,
 .status-section__unknown {
   margin: 24px 0 0;
-  font-size: 0.92rem;
+  font-size: clamp(0.92rem, 10vw, 1.1rem);
   font-weight: 750;
   letter-spacing: 0.02em;
 }
@@ -186,7 +194,7 @@ main {
   display: grid;
   place-items: center;
   min-height: 64vh;
-  font-size: clamp(2rem, 6vw, 5rem);
+  font-size: 2rem;
   font-weight: 900;
   letter-spacing: -0.065em;
 }
@@ -194,7 +202,7 @@ main {
 .message--error {
   align-content: center;
   gap: 12px;
-  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  font-size: 1.6rem;
   text-align: center;
 }
 
@@ -208,7 +216,7 @@ footer {
   display: flex;
   justify-content: space-between;
   gap: 28px;
-  padding: 26px 0 0 14px;
+  padding: 20px 0 20px 14px;
   font-size: 0.82rem;
   font-weight: 650;
   color: #4a4a46;
@@ -220,12 +228,12 @@ footer p {
 
 @media (max-width: 680px) {
   main {
-    width: min(100% - 28px, 1120px);
-    padding-top: 28px;
+    margin: 0 5%;
   }
 
   .site-header {
-    margin-bottom: 34px;
+    padding-top: 28px;
+    margin-bottom: 20px;
   }
 
   .status-list {
@@ -234,21 +242,30 @@ footer p {
 
   .status-section {
     grid-template-columns: 9px 1fr;
-    min-height: 310px;
-  }
-
-  .status-section__body {
-    padding: 34px 18px;
   }
 
   .status-section__live {
     gap: 8px;
   }
 
+  .status-section__lead {
+    font-size: clamp(1rem, 10vw, 1.2rem);
+  }
+
+  .status-section__days {
+    font-size: clamp(3rem, 10vw, 3.4rem);
+  }
+
+  .status-section__record,
+  .status-section__issues,
+  .status-section__unknown {
+    font-size: clamp(0.92rem, 10vw, 1.1rem);
+  }
+
   footer {
     flex-direction: column;
     padding-left: 9px;
-    line-height: 1.6;
+    gap: 12px;
   }
 }
 

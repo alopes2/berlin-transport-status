@@ -15,4 +15,6 @@ artifacts/
 .DS_Store
 .superpowers/
 frontend-test-results/
+.env
+.env.*
 
