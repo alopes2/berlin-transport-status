@@ -1,5 +1,5 @@
 output "api_url" {
-  value = "${aws_apigatewayv2_api.status.api_endpoint}"
+  value = aws_apigatewayv2_api.status.api_endpoint
 }
 
 output "collector_function_name" {
