@@ -45,4 +45,4 @@ jobs:
 
       - run: terraform plan -out=tfplan -var="tracking_since=${{ inputs.tracking_since }}"
 
-      - run: terraform apply -auto-approve -plan=tfplan
+      - run: terraform apply -auto-approve -input=false tfplan
