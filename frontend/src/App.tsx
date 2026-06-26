@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
-import { fetchStatus } from './api/status'
-import StatusSection from './components/StatusSection'
-import type { StatusResponse } from './types/status'
+import { useEffect, useState } from 'react';
+import { fetchStatus } from './api/status';
+import StatusSection from './components/StatusSection';
+import type { StatusResponse } from './types/status';
 
 type LoadState =
   | { kind: 'loading' }
   | { kind: 'loaded'; data: StatusResponse }
-  | { kind: 'error' }
+  | { kind: 'error' };
 
 const SOURCE_LINKS = [
   {
@@ -21,40 +21,60 @@ const SOURCE_LINKS = [
     label: 'DB Regio',
     href: 'https://www.dbregio-berlin-brandenburg.de/db-regio-no/Fahren/Baustellen-und-Stoerungen/',
   },
-]
+];
 
-function formatDate(value: string): string {
-  return new Intl.DateTimeFormat('en-GB', {
+function formatTrackingStartDate(value: string): string {
+  return new Intl.DateTimeFormat('de-DE', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
     timeZone: 'Europe/Berlin',
-  }).format(new Date(`${value}T12:00:00+02:00`))
+  }).format(new Date(`${value}T12:00:00+02:00`));
+}
+
+function formatUpdatedAtDate(value: string): string {
+  const date = new Intl.DateTimeFormat('de-DE', {
+    dateStyle: 'medium',
+    timeZone: 'Europe/Berlin',
+  }).format(new Date(value));
+
+  const time = new Intl.DateTimeFormat('de-DE', {
+    timeStyle: 'medium',
+    timeZone: 'Europe/Berlin',
+  }).format(new Date(value));
+
+  return [date, time].join(' at ');
 }
 
 function relativeUpdate(value: string): string {
   const elapsedMinutes = Math.max(
     0,
     Math.floor((Date.now() - new Date(value).getTime()) / 60_000),
-  )
-  if (elapsedMinutes < 1) return 'Updated just now'
-  return `Updated ${elapsedMinutes} ${elapsedMinutes === 1 ? 'minute' : 'minutes'} ago`
+  );
+  if (elapsedMinutes < 1) return 'Updated just now';
+  return `Updated ${elapsedMinutes} ${elapsedMinutes === 1 ? 'minute' : 'minutes'} ago`;
 }
 
 export default function App() {
-  const [state, setState] = useState<LoadState>({ kind: 'loading' })
+  const [state, setState] = useState<LoadState>({ kind: 'loading' });
 
   useEffect(() => {
-    const controller = new AbortController()
+    const controller = new AbortController();
     fetchStatus(controller.signal)
       .then((data) => setState({ kind: 'loaded', data }))
       .catch((error: unknown) => {
         if (!(error instanceof DOMException && error.name === 'AbortError')) {
-          setState({ kind: 'error' })
+          setState({ kind: 'error' });
         }
-      })
-    return () => controller.abort()
-  }, [])
+      });
+    return () => controller.abort();
+  }, []);
+
+  const updatedAt = formatUpdatedAtDate('2026-06-26T22:18:26.3169642+00:00');
+  // const updatedAt = new Date('2026-06-26T22:18:26.3169642+00:00');
+  // state.kind === 'loaded'
+  //   ? formatUpdatedAtDate(state.data.generatedAt)
+  //   : null;
 
   return (
     <main>
@@ -83,27 +103,25 @@ export default function App() {
               <StatusSection key={status.company} status={status} />
             ))}
           </div>
-          <footer>
-            <p>
-              Tracking since{' '}
-              {formatDate(state.data.companies[0]?.trackingSince ?? '2026-06-22')}
-              <span aria-hidden="true"> · </span>
-              {relativeUpdate(state.data.generatedAt)}
-            </p>
-            <nav aria-label="Disruption data sources">
-              {SOURCE_LINKS.map((source, index) => (
-                <span key={source.label}>
-                  {index > 0 ? <span aria-hidden="true"> · </span> : null}
-                  <a href={source.href} target="_blank" rel="noreferrer">
-                    {source.label}
-                  </a>
-                </span>
-              ))}
-            </nav>
-          </footer>
         </>
       ) : null}
+      <footer>
+        <p>
+          Tracking since {formatTrackingStartDate('2026-06-23')}
+          <span aria-hidden="true"> · </span>
+          {updatedAt ? `Updated at ${updatedAt}` : null}
+        </p>
+        <nav aria-label="Disruption data sources">
+          {SOURCE_LINKS.map((source, index) => (
+            <span key={source.label}>
+              {index > 0 ? <span aria-hidden="true"> · </span> : null}
+              <a href={source.href} target="_blank" rel="noreferrer">
+                {source.label}
+              </a>
+            </span>
+          ))}
+        </nav>
+      </footer>
     </main>
-  )
+  );
 }
-

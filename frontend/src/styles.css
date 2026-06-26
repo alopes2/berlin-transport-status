@@ -92,6 +92,8 @@ main {
   transition:
     transform 180ms ease,
     background-color 180ms ease;
+  justify-self: center;
+  width: 60%;
 }
 
 .status-section:hover {
@@ -120,12 +122,17 @@ main {
   text-align: center;
 }
 
+.status-section__body p {
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
 .status-section__live {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 10px;
 }
 
 .status-section h2 {
@@ -164,7 +171,6 @@ main {
 }
 
 .status-section__days {
-  margin: 8px 0 10px;
   font-size: clamp(3rem, 10vw, 3.4rem);
   font-weight: 950;
   letter-spacing: -0.085em;
@@ -173,7 +179,6 @@ main {
 .status-section__record,
 .status-section__issues,
 .status-section__unknown {
-  margin: 24px 0 0;
   font-size: clamp(0.92rem, 10vw, 1.1rem);
   font-weight: 750;
   letter-spacing: 0.02em;
@@ -181,7 +186,7 @@ main {
 
 .status-section__issues {
   color: #b40011;
-  margin-top: 16px;
+  /* margin-top: 16px; */
 }
 
 .status-section__unknown {
@@ -242,6 +247,7 @@ footer p {
 
   .status-section {
     grid-template-columns: 9px 1fr;
+    width: 100%;
   }
 
   .status-section__live {
