@@ -61,11 +61,10 @@ export default function App() {
     return () => controller.abort();
   }, []);
 
-  const updatedAt = formatUpdatedAtDate('2026-06-26T22:18:26.3169642+00:00');
-  // const updatedAt = new Date('2026-06-26T22:18:26.3169642+00:00');
-  // state.kind === 'loaded'
-  //   ? formatUpdatedAtDate(state.data.generatedAt)
-  //   : null;
+  const updatedAt =
+    state.kind === 'loaded'
+      ? formatUpdatedAtDate(state.data.generatedAt)
+      : null;
 
   return (
     <main>
