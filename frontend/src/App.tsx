@@ -46,15 +46,6 @@ function formatUpdatedAtDate(value: string): string {
   return [date, time].join(' at ');
 }
 
-function relativeUpdate(value: string): string {
-  const elapsedMinutes = Math.max(
-    0,
-    Math.floor((Date.now() - new Date(value).getTime()) / 60_000),
-  );
-  if (elapsedMinutes < 1) return 'Updated just now';
-  return `Updated ${elapsedMinutes} ${elapsedMinutes === 1 ? 'minute' : 'minutes'} ago`;
-}
-
 export default function App() {
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
 
