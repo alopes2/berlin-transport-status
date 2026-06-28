@@ -12,8 +12,8 @@ resource "aws_cloudfront_distribution" "frontend" {
   price_class         = "PriceClass_100"
 
   aliases = [
-    "www.${module.cloudflare.zone.name}.com",
-    "${module.cloudflare.zone.name}.com",
+    "www.${module.cloudflare.zone.name}",
+    "${module.cloudflare.zone.name}",
   ]
 
   origin {
