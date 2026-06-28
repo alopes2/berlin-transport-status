@@ -37,8 +37,10 @@ provider "cloudflare" {}
 data "aws_caller_identity" "current" {}
 
 module "cloudflare" {
-  source         = "./cloudflare"
-  zone_id        = var.cloudflare_zone_id
-  api_url        = "${aws_apigatewayv2_api.status.id}.execute-api.${aws_apigatewayv2_api.status.region}.amazonaws.com"
-  cloudfront_url = aws_cloudfront_distribution.frontend.domain_name
+  source           = "./cloudflare"
+  zone_id          = var.cloudflare_zone_id
+  api_url          = "${aws_apigatewayv2_api.status.id}.execute-api.${aws_apigatewayv2_api.status.region}.amazonaws.com"
+  cloudfront_url   = aws_cloudfront_distribution.frontend.domain_name
+  app_record_names = local.app_record_names
+  api_record_name  = local.api_record_name
 }

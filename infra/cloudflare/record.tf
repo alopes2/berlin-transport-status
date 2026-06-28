@@ -5,7 +5,7 @@ data "cloudflare_zone" "main" {
 resource "cloudflare_dns_record" "www" {
   zone_id = data.cloudflare_zone.main.id
   type    = "CNAME"
-  name    = "www"
+  name    = var.app_record_names["www"]
   content = var.cloudfront_url
   proxied = true
   ttl     = 1
@@ -14,7 +14,7 @@ resource "cloudflare_dns_record" "www" {
 resource "cloudflare_dns_record" "root" {
   zone_id = data.cloudflare_zone.main.id
   type    = "CNAME"
-  name    = "@"
+  name    = var.app_record_names["@"]
   content = var.cloudfront_url
   proxied = true
   ttl     = 1
@@ -23,7 +23,7 @@ resource "cloudflare_dns_record" "root" {
 resource "cloudflare_dns_record" "api" {
   zone_id = data.cloudflare_zone.main.id
   type    = "CNAME"
-  name    = "api"
+  name    = var.api_record_name
   content = var.api_url
   proxied = true
   ttl     = 1
