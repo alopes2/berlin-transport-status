@@ -6,6 +6,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 6.0"
     }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5"
+    }
   }
 
   backend "s3" {
@@ -27,4 +32,11 @@ provider "aws" {
   }
 }
 
+provider "cloudflare" {}
+
 data "aws_caller_identity" "current" {}
+
+module "cloudflare" {
+  source  = "./cloudfare"
+  zone_id = var.cloudflare_zone_id
+}

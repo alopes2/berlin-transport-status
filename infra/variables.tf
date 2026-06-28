@@ -47,3 +47,9 @@ variable "frontend_dist_path" {
   type        = string
   default     = "../frontend/dist"
 }
+
+variable "cloudflare_zone_id" {
+  description = "The ID of the Cloudflare zone."
+  type        = string
+  sensitive   = true
+}
