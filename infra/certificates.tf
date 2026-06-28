@@ -3,6 +3,7 @@ resource "aws_acm_certificate" "cloudfront" {
   region   = "us-east-1"
 
   domain_name = "isberlinmoving.com"
+
   subject_alternative_names = [
     "www.isberlinmoving.com"
   ]

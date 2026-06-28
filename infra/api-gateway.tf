@@ -20,6 +20,12 @@ resource "aws_apigatewayv2_domain_name" "api" {
   }
 }
 
+resource "aws_apigatewayv2_api_mapping" "status" {
+  api_id      = aws_apigatewayv2_api.status.id
+  domain_name = aws_apigatewayv2_domain_name.api.id
+  stage       = aws_apigatewayv2_stage.default.id
+}
+
 resource "aws_apigatewayv2_integration" "status" {
   api_id                 = aws_apigatewayv2_api.status.id
   integration_type       = "AWS_PROXY"
