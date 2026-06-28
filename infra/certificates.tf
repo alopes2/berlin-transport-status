@@ -1,4 +1,6 @@
 resource "aws_acm_certificate" "cloudfront" {
+  provider = aws.useast1
+
   domain_name = "isberlinmoving.com"
   subject_alternative_names = [
     "www.isberlinmoving.com"
@@ -8,6 +10,7 @@ resource "aws_acm_certificate" "cloudfront" {
 }
 
 resource "aws_acm_certificate_validation" "cloudfront" {
+  provider        = aws.useast1
   certificate_arn = aws_acm_certificate.cloudfront.arn
 
   validation_record_fqdns = module.cloudflare_cert_validation.cloudfront_validation_record_fqdns

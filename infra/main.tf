@@ -32,6 +32,16 @@ provider "aws" {
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+  alias  = "useast1"
+  default_tags {
+    tags = {
+      application = var.project_name
+    }
+  }
+}
+
 provider "cloudflare" {}
 
 data "aws_caller_identity" "current" {}
