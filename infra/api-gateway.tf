@@ -10,6 +10,16 @@ resource "aws_apigatewayv2_api" "status" {
   }
 }
 
+resource "aws_apigatewayv2_domain_name" "api" {
+  domain_name = "api.isberlinmoving.com"
+
+  domain_name_configuration {
+    certificate_arn = aws_acm_certificate_validation.api.certificate_arn
+    endpoint_type   = "REGIONAL"
+    security_policy = "TLS_1_2"
+  }
+}
+
 resource "aws_apigatewayv2_integration" "status" {
   api_id                 = aws_apigatewayv2_api.status.id
   integration_type       = "AWS_PROXY"
@@ -22,6 +32,8 @@ resource "aws_apigatewayv2_route" "status" {
   route_key = "GET /status"
   target    = "integrations/${aws_apigatewayv2_integration.status.id}"
 }
+
+
 
 resource "aws_apigatewayv2_stage" "default" {
   api_id      = aws_apigatewayv2_api.status.id
