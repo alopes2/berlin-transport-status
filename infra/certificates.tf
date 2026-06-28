@@ -10,10 +10,7 @@ resource "aws_acm_certificate" "cloudfront" {
 resource "aws_acm_certificate_validation" "cloudfront" {
   certificate_arn = aws_acm_certificate.cloudfront.arn
 
-  validation_record_fqdns = [
-    local.app_record_names["www"],
-    local.app_record_names["@"]
-  ]
+  validation_record_fqdns = module.cloudflare_cert_validation.cloudfront_validation_record_fqdns
 }
 
 resource "aws_acm_certificate" "api" {
@@ -25,7 +22,5 @@ resource "aws_acm_certificate" "api" {
 resource "aws_acm_certificate_validation" "api" {
   certificate_arn = aws_acm_certificate.api.arn
 
-  validation_record_fqdns = [
-    local.api_record_name
-  ]
+  validation_record_fqdns = module.cloudflare_cert_validation.api_validation_record_fqdns
 }

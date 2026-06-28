@@ -36,10 +36,18 @@ provider "cloudflare" {}
 
 data "aws_caller_identity" "current" {}
 
+module "cloudflare_cert_validation" {
+  source  = "./cloudflare/cert-validation"
+  zone_id = var.cloudflare_zone_id
+
+  cloudfront_validation_options = aws_acm_certificate.cloudfront.domain_validation_options
+  api_validation_options        = aws_acm_certificate.api.domain_validation_options
+}
+
 module "cloudflare" {
   source           = "./cloudflare"
   zone_id          = var.cloudflare_zone_id
-  api_url          = "${aws_apigatewayv2_api.status.id}.execute-api.${aws_apigatewayv2_api.status.region}.amazonaws.com"
+  api_url          = aws_apigatewayv2_domain_name.api.domain_name_configuration[0].target_domain_name
   cloudfront_url   = aws_cloudfront_distribution.frontend.domain_name
   app_record_names = local.app_record_names
   api_record_name  = local.api_record_name
