@@ -37,6 +37,8 @@ provider "cloudflare" {}
 data "aws_caller_identity" "current" {}
 
 module "cloudflare" {
-  source  = "./cloudfare"
-  zone_id = var.cloudflare_zone_id
+  source         = "./cloudfare"
+  zone_id        = var.cloudflare_zone_id
+  api_url        = replace(aws_apigatewayv2_stage.default.invoke_url, "https://", "")
+  cloudfront_url = aws_cloudfront_distribution.frontend.domain_name
 }
